@@ -1,0 +1,53 @@
+# -*- coding: utf-8 -*-
+"""
+Tab Stats - Thống kê ngân hàng câu hỏi
+"""
+import streamlit as st
+
+
+def render_stats_tab(tab, counts):
+    """Render tab thống kê ngân hàng"""
+    with tab:
+        st.header("2️⃣ Thống kê ngân hàng câu hỏi")
+
+        st.markdown(
+            f"""
+- Nhóm 1 (Q1–13, MCQ): **{counts[1]}** câu  
+- Nhóm 2 (Q14, sắp xếp): **{counts[2]}** câu  
+- Nhóm 3 (Q15, woman/man/both): **{counts[3]}** block  
+- Nhóm 4 (Q16–17, multi MCQ): **{counts[4]}** block  
+"""
+        )
+
+        with st.expander("🔍 Xem vài ví dụ trong ngân hàng"):
+            for g in [1, 2, 3, 4]:
+                st.subheader(f"Nhóm {g}")
+                sample = st.session_state.question_bank[g][:2]
+                if not sample:
+                    st.write("Chưa có dữ liệu.")
+                else:
+                    for q in sample:
+                        st.markdown(
+                            f"**Test {q['test_id']} – Question {q['index_in_test']} (Nhóm {q['group']})**"
+                        )
+                        if q["type"] == "mcq":
+                            st.text(q["stem"])
+                            for lbl, txt in q["options"].items():
+                                st.write(f"{lbl}. {txt}")
+                            st.write(f"_Answer: {q['answer']}_")
+                        elif q["type"] == "mcq_multi":
+                            if q["intro"]:
+                                st.text(q["intro"])
+                            for j, item in enumerate(q["items"], start=1):
+                                st.write(f"{j}. {item['stem']}")
+                                for lbl, txt in item["options"].items():
+                                    st.write(f"   {lbl}. {txt}")
+                                st.write(f"   Answer: {item['answer']}")
+                        elif q["type"] == "order":
+                            st.text(q["prompt"])
+                            for j, item in enumerate(q["items"], start=1):
+                                st.write(f"{j}. {item}")
+                        elif q["type"] == "gender_block":
+                            for item in q["items"]:
+                                st.write(f"{item['stem']}  →  {item['gender']}")
+                        st.markdown("---")

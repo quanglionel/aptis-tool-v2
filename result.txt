@@ -1,0 +1,371 @@
+﻿============================================================
+[NOI DUNG FILE test.docx]
+============================================================
+  1: Question 1: A man is calling his sister. Where are they going to meet?
+  2: A. At the station
+  3: B. At the park
+  4: C. At the university
+  5: Answer: B
+  6: Question 2: A woman is talking about her vacation. What is the relationship between the speaker and Lisa?
+  7: A. Best friends
+  8: B. Mother and daughter
+  9: C. Teacher and student
+ 10: Answer: A
+ 11: Question 3: Anna is calling her brother Max. What does Anna do later in the afternoon?
+ 12: A. Stay late at the office
+ 13: B. Pick up her kids
+ 14: C. Hang out with friends
+ 15: Answer: A
+ 16: Question 4: A man is talking about his trip. What did he enjoy last year?
+ 17: A. Go for a walk
+ 18: B. Go picnic
+ 19: C. Go cycling
+ 20: Answer: C
+ 21: Question 5: Doctor's office is calling to change the appointment. When is the new appointment?
+ 22: A. On Friday 14th
+ 23: B. On Thursday 30th
+ 24: C. On Thursday 13th
+ 25: Answer: C
+ 26: Question 6: A man calls the teleshop. What is the teleshop number?
+ 27: A. 102030
+ 28: B. 201030
+ 29: C. 301020
+ 30: Answer: B
+ 31: Question 7: Vincent is calling James. Why does Vincent call James?
+ 32: A. To say hello
+ 33: B. To arrange meeting
+ 34: C. To suggest a drink
+ 35: Answer: C
+ 36: Question 8: Two people are talking about meeting for dinner. What time does Ahmed meet Rose?
+ 37: A. quarter past seven
+ 38: B. half past seven
+ 39: C. quarter to eight
+ 40: Answer: C
+ 41: Question 9: Max is calling his friend. How much can Max pay for the computer?
+ 42: A. 150 pounds
+ 43: B. 250 pounds
+ 44: C. 350 pounds
+ 45: Answer: B
+ 46: Question 10: A man is talking to the shopping assistant. What color top does he buy?
+ 47: A. Red
+ 48: B. Blue
+ 49: C. Black
+ 50: Answer: C
+ 51: Question 11: Alice is calling her friend. What did she lose?
+ 52: A. A book
+ 53: B. A laptop
+ 54: C. A phone
+ 55: Answer: C
+ 56: Question 12: A man is talking about the city concert. How will the concert end?
+ 57: A. The city's favorite group
+ 58: B. Fireworks performance
+ 59: C. Singing from orchestra
+ 60: Answer: A
+ 61: Question 13: Jana is talking to her friend. What does Jana's sister look like?
+ 62: A. Tall
+ 63: B. Short
+ 64: C. Curly hair
+ 65: Answer: B
+ 66: Questiion 14: Listen to the opinions of 4 people talking about their purposes of using the Internet, and answer the questions.
+ 67: watch film
+ 68: communicate with friends
+ 69: complete school assignments
+ 70: find transport information
+ 71: Question 15: Listen to two people discussing singers and music. Read the opinions below and decide whose opinion matches the statements, the man, the woman, or both the man and the woman. You can listen to the discussion twice.
+ 72: Singer can be good models for the young - Woman
+ 73: Taste in music is highly personal thing - Both
+ 74: Music is a universal language - Man
+ 75: Music can be used to manipulate people's feelings - Both
+ 76: Question 16: Listen to a TV announcer talking about a writer's new novel. Choose the Answers.
+ 77: C├óu 1: What does the announcer say about the new novel?
+ 78: A. It is different from his earlier works
+ 79: B. It is romantic and soft
+ 80: C. He should listen to critics before writing his next work
+ 81: Answer: C
+ 82: C├óu 2: What does the announcer say about the new novel?
+ 83: A. It is different from his earlier works
+ 84: B. It is romantic and soft
+ 85: C. He should listen to critics before writing his next work
+ 86: Answer: C
+ 87: Question 17: A radio MC talks about a famous musician's life. Choose the Answers.
+ 88: C├óu 1: What has the musician decided regarding his singing career?
+ 89: A. He will make a comeback after a long break
+ 90: B. He will retire from singing professionally
+ 91: C. He will inform fans about new albums
+ 92: Answer: B
+ 93: C├óu 2: What could the musician have achieved with his recent albums?
+ 94: A. He could have been more successful
+ 95: B. He could have inspired future generations
+ 96: C. He could have gotten a bigger fan base.
+ 97: Answer: A
+
+============================================================
+[PHAN TICH REGEX]
+============================================================
+[OK] Line 1: QUESTION_START_PATTERN matched: 'Question 1: A man is calling his sister. Where are they goin...'
+[OK] Line 6: QUESTION_START_PATTERN matched: 'Question 2: A woman is talking about her vacation. What is t...'
+[OK] Line 11: QUESTION_START_PATTERN matched: 'Question 3: Anna is calling her brother Max. What does Anna ...'
+[OK] Line 16: QUESTION_START_PATTERN matched: 'Question 4: A man is talking about his trip. What did he enj...'
+[OK] Line 21: QUESTION_START_PATTERN matched: 'Question 5: Doctor's office is calling to change the appoint...'
+[OK] Line 26: QUESTION_START_PATTERN matched: 'Question 6: A man calls the teleshop. What is the teleshop n...'
+[OK] Line 31: QUESTION_START_PATTERN matched: 'Question 7: Vincent is calling James. Why does Vincent call ...'
+[OK] Line 36: QUESTION_START_PATTERN matched: 'Question 8: Two people are talking about meeting for dinner....'
+[OK] Line 41: QUESTION_START_PATTERN matched: 'Question 9: Max is calling his friend. How much can Max pay ...'
+[OK] Line 46: QUESTION_START_PATTERN matched: 'Question 10: A man is talking to the shopping assistant. Wha...'
+[OK] Line 51: QUESTION_START_PATTERN matched: 'Question 11: Alice is calling her friend. What did she lose?...'
+[OK] Line 56: QUESTION_START_PATTERN matched: 'Question 12: A man is talking about the city concert. How wi...'
+[OK] Line 61: QUESTION_START_PATTERN matched: 'Question 13: Jana is talking to her friend. What does Jana's...'
+[OK] Line 71: QUESTION_START_PATTERN matched: 'Question 15: Listen to two people discussing singers and mus...'
+[OK] Line 76: QUESTION_START_PATTERN matched: 'Question 16: Listen to a TV announcer talking about a writer...'
+[OK] Line 87: QUESTION_START_PATTERN matched: 'Question 17: A radio MC talks about a famous musician's life...'
+
+>> Tong so Question headers tim duoc: 16
+
+--- Kiem tra ANSWER_PATTERN ---
+[OK] Line 5: Answer found = 'B'
+[OK] Line 10: Answer found = 'A'
+[OK] Line 15: Answer found = 'A'
+[OK] Line 20: Answer found = 'C'
+[OK] Line 25: Answer found = 'C'
+[OK] Line 30: Answer found = 'B'
+[OK] Line 35: Answer found = 'C'
+[OK] Line 40: Answer found = 'C'
+[OK] Line 45: Answer found = 'B'
+[OK] Line 50: Answer found = 'C'
+[OK] Line 55: Answer found = 'C'
+[OK] Line 60: Answer found = 'A'
+[OK] Line 65: Answer found = 'B'
+[OK] Line 81: Answer found = 'C'
+[OK] Line 86: Answer found = 'C'
+[OK] Line 92: Answer found = 'B'
+[OK] Line 97: Answer found = 'A'
+>> Tong so Answer: 17
+
+--- Kiem tra OPTION_PATTERN ---
+[OK] Line 2: A. At the station
+[OK] Line 3: B. At the park
+[OK] Line 4: C. At the university
+[OK] Line 7: A. Best friends
+[OK] Line 8: B. Mother and daughter
+[OK] Line 9: C. Teacher and student
+[OK] Line 12: A. Stay late at the office
+[OK] Line 13: B. Pick up her kids
+[OK] Line 14: C. Hang out with friends
+[OK] Line 17: A. Go for a walk
+[OK] Line 18: B. Go picnic
+[OK] Line 19: C. Go cycling
+[OK] Line 22: A. On Friday 14th
+[OK] Line 23: B. On Thursday 30th
+[OK] Line 24: C. On Thursday 13th
+[OK] Line 27: A. 102030
+[OK] Line 28: B. 201030
+[OK] Line 29: C. 301020
+[OK] Line 32: A. To say hello
+[OK] Line 33: B. To arrange meeting
+[OK] Line 34: C. To suggest a drink
+[OK] Line 37: A. quarter past seven
+[OK] Line 38: B. half past seven
+[OK] Line 39: C. quarter to eight
+[OK] Line 42: A. 150 pounds
+[OK] Line 43: B. 250 pounds
+[OK] Line 44: C. 350 pounds
+[OK] Line 47: A. Red
+[OK] Line 48: B. Blue
+[OK] Line 49: C. Black
+[OK] Line 52: A. A book
+[OK] Line 53: B. A laptop
+[OK] Line 54: C. A phone
+[OK] Line 57: A. The city's favorite group
+[OK] Line 58: B. Fireworks performance
+[OK] Line 59: C. Singing from orchestra
+[OK] Line 62: A. Tall
+[OK] Line 63: B. Short
+[OK] Line 64: C. Curly hair
+[OK] Line 78: A. It is different from his earlier works
+[OK] Line 79: B. It is romantic and soft
+[OK] Line 80: C. He should listen to critics before writing his nex
+[OK] Line 83: A. It is different from his earlier works
+[OK] Line 84: B. It is romantic and soft
+[OK] Line 85: C. He should listen to critics before writing his nex
+[OK] Line 89: A. He will make a comeback after a long break
+[OK] Line 90: B. He will retire from singing professionally
+[OK] Line 91: C. He will inform fans about new albums
+[OK] Line 94: A. He could have been more successful
+[OK] Line 95: B. He could have inspired future generations
+[OK] Line 96: C. He could have gotten a bigger fan base.
+>> Tong so Options: 51
+
+--- Kiem tra GENDER_PATTERN (Q15 - woman/man/both) ---
+[OK] Line 72: 'Singer can be good models for the young' -> woman
+[OK] Line 73: 'Taste in music is highly personal thing' -> both
+[OK] Line 74: 'Music is a universal language' -> man
+[OK] Line 75: 'Music can be used to manipulate people's' -> both
+>> Tong so Gender items: 4
+
+============================================================
+[TOM TAT]
+============================================================
+- Question headers (Q1-Q17):  16 (can 17)
+- Answer lines:               17
+- Option lines (A/B/C/D):     51
+- Gender items (Q15):         4 (can 4 cho moi Q15)
+
+============================================================
+[CHI TIET TUNG QUESTION]
+============================================================
+
+--- Question 1 ---
+   Nhom: 1 (MCQ don)
+   Options: 3, Answers: 1, Gender items: 0, 'Cau X' lines: 0
+      Question 1: A man is calling his sister. Where are they going to meet?
+      A. At the station
+      B. At the park
+      C. At the university
+      Answer: B
+
+--- Question 2 ---
+   Nhom: 1 (MCQ don)
+   Options: 3, Answers: 1, Gender items: 0, 'Cau X' lines: 0
+      Question 2: A woman is talking about her vacation. What is the relatio...
+      A. Best friends
+      B. Mother and daughter
+      C. Teacher and student
+      Answer: A
+
+--- Question 3 ---
+   Nhom: 1 (MCQ don)
+   Options: 3, Answers: 1, Gender items: 0, 'Cau X' lines: 0
+      Question 3: Anna is calling her brother Max. What does Anna do later i...
+      A. Stay late at the office
+      B. Pick up her kids
+      C. Hang out with friends
+      Answer: A
+
+--- Question 4 ---
+   Nhom: 1 (MCQ don)
+   Options: 3, Answers: 1, Gender items: 0, 'Cau X' lines: 0
+      Question 4: A man is talking about his trip. What did he enjoy last ye...
+      A. Go for a walk
+      B. Go picnic
+      C. Go cycling
+      Answer: C
+
+--- Question 5 ---
+   Nhom: 1 (MCQ don)
+   Options: 3, Answers: 1, Gender items: 0, 'Cau X' lines: 0
+      Question 5: Doctor's office is calling to change the appointment. When...
+      A. On Friday 14th
+      B. On Thursday 30th
+      C. On Thursday 13th
+      Answer: C
+
+--- Question 6 ---
+   Nhom: 1 (MCQ don)
+   Options: 3, Answers: 1, Gender items: 0, 'Cau X' lines: 0
+      Question 6: A man calls the teleshop. What is the teleshop number?
+      A. 102030
+      B. 201030
+      C. 301020
+      Answer: B
+
+--- Question 7 ---
+   Nhom: 1 (MCQ don)
+   Options: 3, Answers: 1, Gender items: 0, 'Cau X' lines: 0
+      Question 7: Vincent is calling James. Why does Vincent call James?
+      A. To say hello
+      B. To arrange meeting
+      C. To suggest a drink
+      Answer: C
+
+--- Question 8 ---
+   Nhom: 1 (MCQ don)
+   Options: 3, Answers: 1, Gender items: 0, 'Cau X' lines: 0
+      Question 8: Two people are talking about meeting for dinner. What time...
+      A. quarter past seven
+      B. half past seven
+      C. quarter to eight
+      Answer: C
+
+--- Question 9 ---
+   Nhom: 1 (MCQ don)
+   Options: 3, Answers: 1, Gender items: 0, 'Cau X' lines: 0
+      Question 9: Max is calling his friend. How much can Max pay for the co...
+      A. 150 pounds
+      B. 250 pounds
+      C. 350 pounds
+      Answer: B
+
+--- Question 10 ---
+   Nhom: 1 (MCQ don)
+   Options: 3, Answers: 1, Gender items: 0, 'Cau X' lines: 0
+      Question 10: A man is talking to the shopping assistant. What color to...
+      A. Red
+      B. Blue
+      C. Black
+      Answer: C
+
+--- Question 11 ---
+   Nhom: 1 (MCQ don)
+   Options: 3, Answers: 1, Gender items: 0, 'Cau X' lines: 0
+      Question 11: Alice is calling her friend. What did she lose?
+      A. A book
+      B. A laptop
+      C. A phone
+      Answer: C
+
+--- Question 12 ---
+   Nhom: 1 (MCQ don)
+   Options: 3, Answers: 1, Gender items: 0, 'Cau X' lines: 0
+      Question 12: A man is talking about the city concert. How will the con...
+      A. The city's favorite group
+      B. Fireworks performance
+      C. Singing from orchestra
+      Answer: A
+
+--- Question 13 ---
+   Nhom: 1 (MCQ don)
+   Options: 3, Answers: 1, Gender items: 0, 'Cau X' lines: 0
+      Question 13: Jana is talking to her friend. What does Jana's sister lo...
+      A. Tall
+      B. Short
+      C. Curly hair
+      Answer: B
+      Questiion 14: Listen to the opinions of 4 people talking about their p...
+      watch film
+      communicate with friends
+      ... (con 2 dong nua)
+
+--- Question 15 ---
+   Nhom: 3 (woman/man/both)
+   Options: 0, Answers: 0, Gender items: 4, 'Cau X' lines: 0
+      Question 15: Listen to two people discussing singers and music. Read t...
+      Singer can be good models for the young - Woman
+      Taste in music is highly personal thing - Both
+      Music is a universal language - Man
+      Music can be used to manipulate people's feelings - Both
+
+--- Question 16 ---
+   Nhom: 4 (MCQ nhieu cau con)
+   Options: 6, Answers: 2, Gender items: 0, 'Cau X' lines: 2
+      Question 16: Listen to a TV announcer talking about a writer's new nov...
+      C├óu 1: What does the announcer say about the new novel?
+      A. It is different from his earlier works
+      B. It is romantic and soft
+      C. He should listen to critics before writing his next work
+      Answer: C
+      C├óu 2: What does the announcer say about the new novel?
+      A. It is different from his earlier works
+      ... (con 3 dong nua)
+
+--- Question 17 ---
+   Nhom: 4 (MCQ nhieu cau con)
+   Options: 6, Answers: 2, Gender items: 0, 'Cau X' lines: 2
+      Question 17: A radio MC talks about a famous musician's life. Choose t...
+      C├óu 1: What has the musician decided regarding his singing career?
+      A. He will make a comeback after a long break
+      B. He will retire from singing professionally
+      C. He will inform fans about new albums
+      Answer: B
+      C├óu 2: What could the musician have achieved with his recent albums?
+      A. He could have been more successful
+      ... (con 3 dong nua)
