@@ -764,13 +764,14 @@ with tab_exam:
 
                 chosen = st.radio(
                     "Chọn đáp án:",
-                    options=["(Chưa chọn)"] + option_entries,
+                    options=option_entries,
+                    index=None,
                     key=f"mcq_{i}",
                 )
 
                 total_mcq += 1
 
-                if chosen != "(Chưa chọn)":
+                if chosen is not None:
                     chosen_label = chosen.split(".", 1)[0].strip().upper()
                     if chosen_label == q["answer"]:
                         st.success(f"✅ Đúng (Answer: {q['answer']})")
@@ -791,13 +792,14 @@ with tab_exam:
                     ]
                     chosen = st.radio(
                         "",
-                        options=["(Chưa chọn)"] + opt_entries,
+                        options=opt_entries,
+                        index=None,
                         key=f"mcq_multi_{i}_{j}",
                     )
 
                     total_mcq += 1
 
-                    if chosen != "(Chưa chọn)":
+                    if chosen is not None:
                         chosen_label = chosen.split(".", 1)[0].strip().upper()
                         if chosen_label == item["answer"]:
                             st.success(f"✅ Đúng (Answer: {item['answer']})")
@@ -845,11 +847,13 @@ with tab_exam:
                     st.write(f"- {item['stem']}")
                     choice = st.selectbox(
                         "Người nói:",
-                        options=["(Chưa chọn)", "woman", "man", "both"],
+                        options=["woman", "man", "both"],
+                        index=None,
+                        placeholder="Chọn...",
                         key=f"gender_{i}_{j}",
                     )
-                    if choice != "(Chưa chọn)":
-                        total_gender += 1
+                    total_gender += 1
+                    if choice is not None:
                         if choice.lower() == item["gender"]:
                             st.success("✅ Đúng")
                             score_gender += 1
