@@ -100,7 +100,7 @@ if "exam_id" not in st.session_state:
 #  MAIN UI
 # ==========================
 
-st.title("📚 Tool luyện đề từ nhiều Test (17 câu cố định thứ tự)")
+st.title("📚 Tool luyện đề (Phiên bản 2.0 - Multi Upload)")
 
 # Tạo các tab
 tab_info, tab_upload, tab_stats, tab_view, tab_exam = st.tabs(
