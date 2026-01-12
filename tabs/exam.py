@@ -20,18 +20,21 @@ def render_exam_tab(tab, counts=None):
 
         current_counts = {g: len(st.session_state.question_bank.get(g, [])) for g in [1, 2, 3, 4]}
 
+        group_choice = 1
+        if mode.startswith("🎯"):
+            group_choice = st.selectbox("Chọn nhóm muốn luyện:", [1, 2, 3, 4])
+            count = current_counts[group_choice]
+            st.info(f"Nhóm {group_choice} hiện có **{count}** câu hỏi.")
+
         # --- NÚT BẮT ĐẦU ---
         if st.button("🚀 Bắt đầu làm bài", type="primary"):
             exam_questions = []
             
             if mode.startswith("🎯"): # Luyện theo nhóm
-                # Chọn nhóm để luyện
-                group_choice = st.selectbox("Chọn nhóm muốn luyện:", [1, 2, 3, 4])
-                
                 # Lấy TẤT CẢ câu hỏi của nhóm đó
                 if current_counts[group_choice] > 0:
                     exam_questions = st.session_state.question_bank[group_choice].copy()
-                    # Shuffle thứ tự câu hỏi cho đỡ chán (tùy chọn)
+                    # Shuffle thứ tự câu hỏi cho đỡ chán
                     random.shuffle(exam_questions)
                 else:
                     st.warning(f"⚠️ Nhóm {group_choice} chưa có dữ liệu!")
