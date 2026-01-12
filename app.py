@@ -88,6 +88,9 @@ st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 if "question_bank" not in st.session_state:
     # Tự động tải dữ liệu đã lưu (nếu có)
     st.session_state.question_bank = load_question_bank()
+    # Đảm bảo có key 'history' để lưu các câu sai
+    if "history" not in st.session_state.question_bank:
+        st.session_state.question_bank["history"] = []
 
 if "current_exam" not in st.session_state:
     st.session_state.current_exam = []
