@@ -48,6 +48,7 @@ def render_exam_tab(tab, counts=None):
                         q["shuffled_items"] = random.sample(q["items"], len(q["items"]))
 
                 st.session_state.current_exam = exam_questions
+                st.session_state.exam_id += 1  # Tăng ID để reset các input widgets
                 st.success("✅ Đã tạo đề. Kéo xuống để làm bài.")
 
         # --------- LÀM ĐỀ & CHẤM ---------
@@ -78,7 +79,8 @@ def render_exam_tab(tab, counts=None):
                         "Chọn đáp án:",
                         options=option_entries,
                         index=None,
-                        key=f"mcq_{i}",
+                        index=None,
+                        key=f"mcq_{i}_{st.session_state.exam_id}",
                     )
 
                     total_mcq += 1
@@ -106,7 +108,8 @@ def render_exam_tab(tab, counts=None):
                             "",
                             options=opt_entries,
                             index=None,
-                            key=f"mcq_multi_{i}_{j}",
+                            index=None,
+                            key=f"mcq_multi_{i}_{j}_{st.session_state.exam_id}",
                         )
 
                         total_mcq += 1
@@ -134,7 +137,7 @@ def render_exam_tab(tab, counts=None):
                     selected = st.multiselect(
                         "Chọn lần lượt từ mục đầu đến cuối:",
                         options=items_shuffled,
-                        key=f"order_{i}",
+                        key=f"order_{i}_{st.session_state.exam_id}",
                     )
 
                     total_order += 1
@@ -162,7 +165,8 @@ def render_exam_tab(tab, counts=None):
                             options=["woman", "man", "both"],
                             index=None,
                             placeholder="Chọn...",
-                            key=f"gender_{i}_{j}",
+                            placeholder="Chọn...",
+                            key=f"gender_{i}_{j}_{st.session_state.exam_id}",
                         )
                         total_gender += 1
                         if choice is not None:

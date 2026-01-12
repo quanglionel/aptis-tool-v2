@@ -92,6 +92,9 @@ if "question_bank" not in st.session_state:
 if "current_exam" not in st.session_state:
     st.session_state.current_exam = []
 
+if "exam_id" not in st.session_state:
+    st.session_state.exam_id = 0
+
 
 # ==========================
 #  MAIN UI
