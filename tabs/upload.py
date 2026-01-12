@@ -122,7 +122,7 @@ def process_single_test(uploaded_file, test_id, existing_tests):
 def render_upload_tab(tab):
     """Render tab upload đề thi (Multi-file Support)"""
     with tab:
-        st.header("1️⃣ Upload đề thi (Nhiều file cùng lúc)")
+        st.header("1️⃣ Upload đề thi (📂 Nhiều file cùng lúc)")
         
         # 1. Upload nhiều file
         uploaded_files = st.file_uploader(
