@@ -79,7 +79,6 @@ def render_exam_tab(tab, counts=None):
                         "Chọn đáp án:",
                         options=option_entries,
                         index=None,
-                        index=None,
                         key=f"mcq_{i}_{st.session_state.exam_id}",
                     )
 
@@ -107,7 +106,6 @@ def render_exam_tab(tab, counts=None):
                         chosen = st.radio(
                             "",
                             options=opt_entries,
-                            index=None,
                             index=None,
                             key=f"mcq_multi_{i}_{j}_{st.session_state.exam_id}",
                         )
@@ -164,7 +162,6 @@ def render_exam_tab(tab, counts=None):
                             "Người nói:",
                             options=["woman", "man", "both"],
                             index=None,
-                            placeholder="Chọn...",
                             placeholder="Chọn...",
                             key=f"gender_{i}_{j}_{st.session_state.exam_id}",
                         )
