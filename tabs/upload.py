@@ -120,89 +120,101 @@ def process_single_test(uploaded_file, test_id, existing_tests):
 
 
 def render_upload_tab(tab):
-    """Render tab upload đề thi"""
+    """Render tab upload đề thi (Multi-file Support)"""
     with tab:
-        st.header("1️⃣ Upload đề thi (nhiều Test cùng lúc)")
+        st.header("1️⃣ Upload đề thi (Nhiều file cùng lúc)")
         
-        # Khởi tạo số lượng form upload trong session
-        if "num_upload_forms" not in st.session_state:
-            st.session_state.num_upload_forms = 1
-        
-        st.markdown("**Thêm nhiều đề thi cùng lúc:**")
-        
-        # Nút thêm/bớt form
-        col_add, col_remove = st.columns(2)
-        with col_add:
-            if st.button("➕ Thêm đề", key="add_form"):
-                st.session_state.num_upload_forms += 1
-                st.rerun()
-        with col_remove:
-            if st.button("➖ Bớt đề", key="remove_form") and st.session_state.num_upload_forms > 1:
-                st.session_state.num_upload_forms -= 1
-                st.rerun()
-        
-        st.markdown("---")
-        
-        # Tạo các form upload động
-        upload_data = []
-        for i in range(st.session_state.num_upload_forms):
-            st.markdown(f"### 📄 Đề {i + 1}")
-            col1, col2 = st.columns([1, 3])
-            
-            with col1:
-                test_id = st.number_input(
-                    f"Số Test:",
-                    min_value=1,
-                    max_value=50,
-                    value=i + 1,
-                    step=1,
-                    key=f"test_id_{i}",
-                )
-            
-            with col2:
-                uploaded_file = st.file_uploader(
-                    f"Chọn file .docx",
-                    type=["docx"],
-                    key=f"file_{i}",
-                )
-            
-            upload_data.append({"test_id": test_id, "file": uploaded_file})
-        
-        st.markdown("---")
-        
-        # Danh sách test đã tồn tại
+        # 1. Upload nhiều file
+        uploaded_files = st.file_uploader(
+            "Chọn các file đề thi (.docx):",
+            type=["docx"],
+            accept_multiple_files=True,
+            help="Bạn có thể chọn nhiều file cùng lúc. Hệ thống sẽ tự động gán mã Test ID."
+        )
+
+        if not uploaded_files:
+            st.info("👆 Hãy chọn một hoặc nhiều file để bắt đầu.")
+            return
+
+        # 2. Xác định Test ID tiếp theo
+        # Lấy danh sách ID đã có
         existing_tests = {
             q["test_id"]
             for group in st.session_state.question_bank.values()
             for q in group
         }
         
-        # Nút xử lý tất cả
-        if st.button("📥 Xử lý & thêm TẤT CẢ vào ngân hàng", key="upload_all_button", type="primary"):
+        next_id = 1
+        if existing_tests:
+            next_id = max(existing_tests) + 1
+        
+        st.write("---")
+        st.subheader("📋 Danh sách file đã chọn & Mã Test dự kiến")
+        
+        # 3. Hiển thị danh sách file để review và sửa ID
+        upload_data = []
+        
+        for i, file in enumerate(uploaded_files):
+            col1, col2 = st.columns([3, 1])
+            
+            with col1:
+                st.text(f"📄 {file.name}")
+            
+            with col2:
+                # Tự động gán ID tăng dần: next_id + i
+                suggested_id = next_id + i
+                
+                # Input cho phép sửa ID
+                chosen_id = st.number_input(
+                    "Test ID:",
+                    min_value=1,
+                    max_value=999,
+                    value=suggested_id,
+                    key=f"test_id_input_{i}"
+                )
+            
+            upload_data.append({"file": file, "test_id": chosen_id})
+        
+        st.write("---")
+
+        # 4. Nút xử lý
+        if st.button(f"📥 Xử lý {len(upload_data)} file & Lưu vào ngân hàng", type="primary"):
             results = []
             success_count = 0
             
-            for data in upload_data:
-                if data["file"] is not None:
+            progress_bar = st.progress(0)
+            status_text = st.empty()
+            
+            for idx, data in enumerate(upload_data):
+                status_text.text(f"Đang xử lý: {data['file'].name} (Test {data['test_id']})...")
+                
+                # Check trùng ID ngay tại đây (với những ID vừa thêm trong vòng lặp này)
+                if int(data["test_id"]) in existing_tests:
+                     results.append(f"⚠️ Test {data['test_id']} ({data['file'].name}): Bị bỏ qua vì ID này đã tồn tại!")
+                else:
                     success, msg = process_single_test(data["file"], data["test_id"], existing_tests)
-                    results.append(msg)
+                    results.append(f"{'✅' if success else '❌'} {data['file'].name}: {msg}")
+                    
                     if success:
                         success_count += 1
-                        # Cập nhật existing_tests để check trùng
                         existing_tests.add(int(data["test_id"]))
-            
-            if results:
-                st.markdown("### 📊 Kết quả xử lý:")
-                for r in results:
-                    if r.startswith("✅"):
-                        st.success(r)
-                    else:
-                        st.error(r)
-                st.info(f"**Tổng cộng:** {success_count}/{len([d for d in upload_data if d['file']])} đề được xử lý thành công.")
                 
-                # Tự động lưu dữ liệu sau khi upload thành công
-                if success_count > 0:
-                    save_question_bank(st.session_state.question_bank)
-                    st.success("💾 Dữ liệu đã được lưu tự động!")
-            else:
-                st.warning("⚠️ Chưa có file nào được chọn!")
+                progress_bar.progress((idx + 1) / len(upload_data))
+            
+            status_text.empty()
+            progress_bar.empty()
+            
+            # Hiển thị kết quả
+            st.markdown("### 📊 Kết quả chi tiết:")
+            for r in results:
+                if r.startswith("✅"):
+                    st.success(r)
+                elif r.startswith("⚠️"):
+                    st.warning(r)
+                else:
+                    st.error(r)
+            
+            if success_count > 0:
+                save_question_bank(st.session_state.question_bank)
+                st.success(f"💾 Đã lưu thành công {success_count} đề thi vào hệ thống!")
+                st.balloons()
