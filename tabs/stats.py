@@ -13,14 +13,27 @@ def render_stats_tab(tab, counts=None):
         # Luôn tính counts trực tiếp từ session_state để đảm bảo dữ liệu mới nhất
         current_counts = {g: len(st.session_state.question_bank[g]) for g in [1, 2, 3, 4]}
 
+        # Đếm số lượng câu sai trong history
+        history_count = len(st.session_state.question_bank.get("history", []))
+
         st.markdown(
             f"""
 - Nhóm 1 (Q1–13, MCQ): **{current_counts[1]}** câu  
 - Nhóm 2 (Q14, sắp xếp): **{current_counts[2]}** câu  
 - Nhóm 3 (Q15, woman/man/both): **{current_counts[3]}** block  
 - Nhóm 4 (Q16–17, multi MCQ): **{current_counts[4]}** block  
+---
+- **⚠️ Câu làm sai (History): {history_count}** câu
 """
         )
+
+        if history_count > 0:
+            if st.button("🗑️ Xóa sạch lịch sử câu sai"):
+                st.session_state.question_bank["history"] = []
+                from storage import save_question_bank
+                save_question_bank(st.session_state.question_bank)
+                st.success("Đã xóa sạch lịch sử câu sai!")
+                st.rerun()
 
         with st.expander("🔍 Xem vài ví dụ trong ngân hàng"):
             for g in [1, 2, 3, 4]:
