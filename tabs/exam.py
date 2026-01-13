@@ -12,11 +12,17 @@ def render_exam_tab(tab, counts=None):
         st.header("4️⃣ Tạo đề & Luyện tập")
 
         # 1. Chọn chế độ
-        mode = st.radio(
-            "Chọn chế độ:",
-            ["🎯 Luyện tập theo Nhóm (Làm hết câu trong kho)", "🎲 Luyện đề Full (Cấu trúc 17 câu)"],
-            horizontal=True
-        )
+        modes = [
+            "🎯 Luyện tập theo Nhóm (Làm hết câu trong kho)",
+            "🎲 Luyện đề Full (Cấu trúc 17 câu)"
+        ]
+        
+        # Kiểm tra nếu có history thì hiện thêm chế độ này
+        history = st.session_state.question_bank.get("history", [])
+        if history:
+            modes.append(f"⚠️ Luyện câu sai ({len(history)} câu)")
+        
+        mode = st.radio("Chọn chế độ:", modes, horizontal=True)
 
         current_counts = {g: len(st.session_state.question_bank.get(g, [])) for g in [1, 2, 3, 4]}
 
@@ -30,17 +36,26 @@ def render_exam_tab(tab, counts=None):
         if st.button("🚀 Bắt đầu làm bài", type="primary"):
             exam_questions = []
             
-            if mode.startswith("🎯"): # Luyện theo nhóm
-                # Lấy TẤT CẢ câu hỏi của nhóm đó
+            # --- Chế độ Luyện câu sai ---
+            if mode.startswith("⚠️"):
+                 if history:
+                    exam_questions = history.copy()
+                    random.shuffle(exam_questions)
+                    # Đánh dấu đang ở chế độ Review để xử lý logic xóa sau khi làm đúng
+                    st.session_state.is_review_mode = True
+                 else:
+                     st.warning("🎉 Bạn không có câu sai nào!")
+            
+            elif mode.startswith("🎯"): # Luyện theo nhóm
+                st.session_state.is_review_mode = False
                 if current_counts[group_choice] > 0:
                     exam_questions = st.session_state.question_bank[group_choice].copy()
-                    # Shuffle thứ tự câu hỏi cho đỡ chán
                     random.shuffle(exam_questions)
                 else:
                     st.warning(f"⚠️ Nhóm {group_choice} chưa có dữ liệu!")
             
             else: # Luyện đề Full
-                # Kiểm tra đủ câu không
+                st.session_state.is_review_mode = False
                 can_generate = (
                     current_counts[1] >= 13
                     and current_counts[2] >= 1
@@ -59,7 +74,7 @@ def render_exam_tab(tab, counts=None):
                     exam_questions.extend(q4)
                 else:
                     st.warning("⚠️ Chưa đủ câu để tạo đề Full 17 câu.")
-
+                    
             if exam_questions:
                 # Shuffle items cho câu sắp xếp
                 for q in exam_questions:
@@ -68,7 +83,7 @@ def render_exam_tab(tab, counts=None):
                 
                 st.session_state.current_exam = exam_questions
                 st.session_state.exam_id += 1
-                st.session_state.exam_submitted = False  # Trạng thái chưa nộp bài
+                st.session_state.exam_submitted = False
                 st.success(f"✅ Đã tạo bài luyện tập với {len(exam_questions)} câu hỏi.")
                 st.rerun()
 
@@ -204,11 +219,13 @@ def render_exam_tab(tab, counts=None):
                     wrong_entries = []
 
                     for i, q in enumerate(questions):
+                        is_correct = False
                         # Logic chấm điểm
                         if q["type"] == "mcq":
                             total_questions += 1
                             if user_answers.get(i) == q["answer"]:
                                 total_correct += 1
+                                is_correct = True
                             else:
                                 wrong_entries.append(q)
                         
@@ -218,14 +235,13 @@ def render_exam_tab(tab, counts=None):
                                 if user_answers.get(f"{i}_{j}") == item["answer"]:
                                     total_correct += 1
                                 else:
-                                    # Lưu cả block nhưng note lại là sai ở item nào thì phức tạp
-                                    # Nên ta lưu parent block vào history
                                     if q not in wrong_entries: wrong_entries.append(q)
-
+                        
                         elif q["type"] == "order":
                             total_questions += 1
                             if user_answers.get(i) == q["items"]:
                                 total_correct += 1
+                                is_correct = True
                             else:
                                 wrong_entries.append(q)
 
@@ -236,6 +252,21 @@ def render_exam_tab(tab, counts=None):
                                     total_correct += 1
                                 else:
                                     if q not in wrong_entries: wrong_entries.append(q)
+
+                        # --- Xử lý xóa khỏi History nếu làm đúng trong chế độ Review ---
+                        if st.session_state.get("is_review_mode", False):
+                            # Với câu đơn (MCQ, Order) -> Đúng là xóa
+                            # Với câu chùm (Multi, Gender) -> Phải đúng HẾT mới xóa (đây là logic đơn giản nhất)
+                            # Logic hiện tại: Chỉ cần không nằm trong wrong_entries nghĩa là đúng hết
+                            if q not in wrong_entries:
+                                # Tìm và xóa câu này trong history gốc
+                                # Dùng list comprehension để filters
+                                # So sánh bằng test_id và index_in_test
+                                st.session_state.question_bank["history"] = [
+                                    h for h in st.session_state.question_bank["history"]
+                                    if not (h["test_id"] == q["test_id"] and h["index_in_test"] == q["index_in_test"])
+                                ]
+                                
 
                     # Lưu vào history (tránh trùng lặp)
                     current_history_ids = {
@@ -251,12 +282,16 @@ def render_exam_tab(tab, counts=None):
                             count_new_wrong += 1
                     
                     # Auto save
-                    if count_new_wrong > 0:
-                        save_question_bank(st.session_state.question_bank)
+                    save_question_bank(st.session_state.question_bank)
 
                     st.toast(f"Đã chấm điểm! Điểm số: {total_correct}/{total_questions}", icon="🎉")
                     if count_new_wrong > 0:
-                        st.toast(f"Đã lưu {count_new_wrong} câu sai vào History.", icon="💾")
+                        st.toast(f"Đã lưu {count_new_wrong} câu sai mới vào History.", icon="💾")
+                    
+                    if st.session_state.get("is_review_mode", False):
+                         removed_count = len(questions) - len(wrong_entries)
+                         if removed_count > 0:
+                             st.toast(f"Đã xóa {removed_count} câu làm đúng khỏi danh sách sai!", icon="🧹")
                     
                     st.rerun()
             

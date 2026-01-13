@@ -25,54 +25,94 @@ st.set_page_config(page_title="Tool luyện đề từ nhiều Test", layout="wi
 # ---- CSS cho responsive & giao diện gọn gàng ----
 CUSTOM_CSS = """
 <style>
-/* Giới hạn độ rộng nội dung, căn giữa */
+/* --- Cấu hình chung --- */
 .main .block-container {
-    max-width: 1100px;
+    max-width: 100%;
     padding-top: 1rem;
     padding-bottom: 3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
-/* Tiêu đề gọn hơn một chút */
-h1, h2, h3 {
-    margin-top: 0.6rem;
-    margin-bottom: 0.4rem;
-}
+/* Tiêu đề gọn hơn */
+h1 { font-size: 1.8rem !important; }
+h2 { font-size: 1.5rem !important; }
+h3 { font-size: 1.2rem !important; }
 
-/* Canh giữa thanh tab + khoảng cách đều nhau */
+/* --- Tối ưu thanh Tabs cho Mobile --- */
 .stTabs [role="tablist"] {
-    justify-content: center;   /* căn giữa các tab */
-    gap: 1rem;                 /* khoảng cách giữa các tab */
+    justify-content: flex-start; /* Canh trái để cuộn */
+    overflow-x: auto;            /* Cho phép cuộn ngang */
+    white-space: nowrap;         /* Không xuống dòng */
+    gap: 0.5rem;
+    padding-bottom: 5px;
+    
+    /* Ẩn thanh cuộn nhưng vẫn cuộn được (cho đẹp) */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+}
+.stTabs [role="tablist"]::-webkit-scrollbar { 
+    display: none; 
 }
 
-/* Style cho từng tab */
 .stTabs [role="tab"] {
-    font-weight: 600;
-    padding: 0.3rem 0.8rem;
-    border-radius: 999px;      /* bo tròn nhìn như pill */
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background-color: #f0f2f6; /* Nền nhẹ cho các tab chưa chọn */
+    border: 1px solid #e0e0e0;
+}
+.stTabs [role="tab"][aria-selected="true"] {
+    background-color: #ff4b4b !important; /* Màu nổi bật cho tab đang chọn */
+    color: white !important;
+    border: none;
 }
 
-/* Responsive cho màn hình nhỏ (tablet, mobile) */
+/* --- Tối ưu các Widget nhập liệu --- */
+
+/* Radio button & Checkbox to hơn để dễ bấm */
+.stRadio label, .stCheckbox label {
+    font-size: 1rem !important;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+/* Các nút bấm (Button) full chiều rộng trên mobile */
+div.stButton > button {
+    width: 100%;
+    border-radius: 8px;
+    height: 3rem; /* Cao hơn để dễ bấm */
+    font-weight: bold;
+}
+
+/* Input fields */
+.stTextInput input, .stNumberInput input, .stSelectbox div[data-baseweb="select"] {
+    min-height: 45px; /* Cao hơn chút */
+}
+
+/* --- Responsive Modal/Expander --- */
+.streamlit-expanderHeader {
+    font-weight: 600;
+    font-size: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+/* Ẩn bớt footer mặc định của Streamlit */
+footer {visibility: hidden;}
+#MainMenu {visibility: hidden;}
+
+/* --- Mobile Specific Tweaks --- */
 @media (max-width: 768px) {
     .main .block-container {
         padding-left: 0.5rem;
         padding-right: 0.5rem;
     }
-
-    /* Cho phép tab xuống hàng và vẫn căn giữa */
-    .stTabs [role="tablist"] {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.5rem;
-    }
-
-    /* Các input chiếm full width */
-    input[type="number"],
-    .stTextInput input,
-    .stFileUploader,
-    .stRadio > div,
-    .stSelectbox > div,
-    .stMultiSelect > div {
-        width: 100% !important;
+    
+    /* Font to hơn chút trên mobile */
+    p, li, .stMarkdown {
+        font-size: 1rem !important;
+        line-height: 1.6 !important;
     }
 }
 </style>
